@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/email")
+@RequestMapping("/api/v1/invexdijin")
 public class EmailNotificationController {
 
     @Autowired
     private CreateEmailInputPort createEmailInputPort;
 
-    @PostMapping("/contact")
+    @PostMapping("/contact-form")
     public ResponseEntity<?> sendContactEmail(@Valid @RequestBody RequestContactEmail requestContactEmail) {
         createEmailInputPort.createContactEmail(requestContactEmail);
         return ResponseEntity.ok().body(new Response("OK"));
