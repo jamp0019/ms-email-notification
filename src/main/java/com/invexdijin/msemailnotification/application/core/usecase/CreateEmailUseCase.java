@@ -7,6 +7,7 @@ import com.invexdijin.msemailnotification.application.ports.in.CreateEmailInputP
 import com.invexdijin.msemailnotification.application.ports.out.MapperEmailPropertiesOutputPort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,6 +28,15 @@ public class CreateEmailUseCase implements CreateEmailInputPort {
     private JavaMailSender emailSender;
 
     private SimpleMailMessage message;
+
+    @Value("${email.attachment.set.from}")
+    private String setFrom;
+
+    @Value("${email.attachment.set.subject}")
+    private String setSubject;
+
+    @Value("${attachment.filename}")
+    private String attachFilename;
     @Override
     //@Async
     public void createContactEmail(RequestContactEmail requestContactEmail) {
@@ -49,12 +59,12 @@ public class CreateEmailUseCase implements CreateEmailInputPort {
         try{
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("noreply@baeldung.com");
+            helper.setFrom(setFrom);
             helper.setTo(requestPdfEmail.getEmail());
-            helper.setSubject("Reporte consolidado");
+            helper.setSubject(setSubject);
             helper.setText(requestPdfEmail.getMessage());
             byte[] pdf = Base64.getDecoder().decode(requestPdfEmail.getPdfBase64());
-            helper.addAttachment("consolidated-report.pdf", new ByteArrayResource(pdf));
+            helper.addAttachment(attachFilename, new ByteArrayResource(pdf));
             emailSender.send(message);
             log.info("Email with attachment sent successfully");
         }catch (Exception ex){
