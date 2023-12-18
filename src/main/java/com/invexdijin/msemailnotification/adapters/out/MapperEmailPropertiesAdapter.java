@@ -14,12 +14,12 @@ public class MapperEmailPropertiesAdapter implements MapperEmailPropertiesOutput
     @Override
     public SimpleMailMessage mapping(RequestContactEmail requestContactEmail) {
         message = new SimpleMailMessage();
-        message.setFrom(requestContactEmail.getEmail());
+        message.setFrom(requestContactEmail.getContactEmail());
         message.setTo("john1992alex@gmail.com");
-        message.setSubject("Contact form");
-        message.setText(requestContactEmail.getName()+" "+
+        message.setSubject("Formulario de contacto");
+        message.setText(requestContactEmail.getContactName()+" "+
                 requestContactEmail.getContactPhone()+" "+
-                requestContactEmail.getMessage());
+                requestContactEmail.getContactMessage());
         return message;
     }
 }
