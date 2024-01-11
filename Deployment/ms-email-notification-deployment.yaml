@@ -1,0 +1,60 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-notification
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: email-notification
+  template:
+    metadata:
+      labels:
+        app: email-notification
+    spec:
+      containers:
+        - name: email-notification
+          image: docker.io/jamp1992/ms-email-notification:v1
+          env:
+            - name: EMAIL_CONTACT_SET_TO
+              value: john1992alex@gmail.com
+            - name: EMAIL_CONTACT_SET_SUBJECT
+              value: Formulario de contacto
+            - name: EMAIL_ATTACHMENT_SET_FROM
+              value: john1992alex@gmail.com
+            - name: EMAIL_ATTACHMENT_SET_SUBJECT
+              value: Reporte consolidado
+            - name: ATTACHMENT_FILENAME
+              value: consolidated-report.pdf
+          readinessProbe:
+            failureThreshold: 10
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            httpGet:
+              httpHeaders:
+                - name: Accept
+                  value: application/json
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+#          imagePullPolicy: Always
+#          ports:
+#            - containerPort: 8080
+#              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: email-notification
+spec:
+  type: ClusterIP
+  selector:
+    app: email-notification
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
