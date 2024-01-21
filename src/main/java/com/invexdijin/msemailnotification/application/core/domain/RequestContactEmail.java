@@ -22,7 +22,7 @@ public class RequestContactEmail {
     @NotEmpty(message = "contact-number-message")
     @NotBlank(message = "contact-number-message")
     @Pattern(regexp = "\\d+",message = "contact-number-message-number")
-    private String contactPhone;
+    private String contactNumber;
 
     @NotNull(message = "contact-message-error-message")
     @NotEmpty(message = "contact-message-error-message")

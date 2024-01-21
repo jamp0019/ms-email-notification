@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: email-notification
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: email-notification
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: email-notification
-          image: docker.io/jamp1992/ms-email-notification:v1
+          image: docker.io/jamp1992/ms-email-notification:v2
           env:
             - name: EMAIL_CONTACT_SET_TO
               value: john1992alex@gmail.com

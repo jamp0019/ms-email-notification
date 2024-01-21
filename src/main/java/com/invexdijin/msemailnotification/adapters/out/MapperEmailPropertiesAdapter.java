@@ -25,7 +25,7 @@ public class MapperEmailPropertiesAdapter implements MapperEmailPropertiesOutput
         message.setTo(setTo);
         message.setSubject(setSubject);
         message.setText(requestContactEmail.getContactName()+" "+
-                requestContactEmail.getContactPhone()+" "+
+                requestContactEmail.getContactNumber()+" "+
                 requestContactEmail.getContactMessage());
         return message;
     }
