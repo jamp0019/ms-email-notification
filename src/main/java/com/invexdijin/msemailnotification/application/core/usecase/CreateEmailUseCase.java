@@ -27,8 +27,6 @@ public class CreateEmailUseCase implements CreateEmailInputPort {
     @Autowired
     private JavaMailSender emailSender;
 
-    private SimpleMailMessage message;
-
     @Value("${email.attachment.set.from}")
     private String setFrom;
 
@@ -42,7 +40,7 @@ public class CreateEmailUseCase implements CreateEmailInputPort {
     public void createContactEmail(RequestContactEmail requestContactEmail) {
 
         try {
-            message = mapperEmailPropertiesOutputPort.mapping(requestContactEmail);
+            SimpleMailMessage message = mapperEmailPropertiesOutputPort.mapping(requestContactEmail);
             emailSender.send(message);
             log.info("Email sent successfully");
         } catch (Exception ex){

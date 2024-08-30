@@ -13,6 +13,9 @@ public class MapperEmailPropertiesAdapter implements MapperEmailPropertiesOutput
 
     private SimpleMailMessage message;
 
+    @Value("${email.attachment.set.from}")
+    private String setFrom;
+
     @Value("${email.contact.set.to}")
     private String setTo;
 
@@ -21,12 +24,12 @@ public class MapperEmailPropertiesAdapter implements MapperEmailPropertiesOutput
     @Override
     public SimpleMailMessage mapping(RequestContactEmail requestContactEmail) {
         message = new SimpleMailMessage();
-        message.setFrom(requestContactEmail.getContactEmail());
+        message.setFrom(setFrom);
         message.setTo(setTo);
         message.setSubject(setSubject);
         message.setText(requestContactEmail.getContactName()+" "+
                 requestContactEmail.getContactNumber()+" "+
-                requestContactEmail.getContactMessage());
+                requestContactEmail.getContactMessage()+" "+requestContactEmail.getContactEmail());
         return message;
     }
 }
